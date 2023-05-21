@@ -1,30 +1,4 @@
 # -- elsBastions23 --
-
-import requests
-import pandas as pd
-
-auth_url = "https://www.strava.com/oauth/token"
-activites_url = "https://www.strava.com/api/v3/athlete/activities"
-
-#MODIFY ACCORDING TO EACH ATHLETE'S DATA
-payload = {
-    'client_id': "95885", 
-    'client_secret': 'a62aa88999b8f61dc91dbf745f1de6f0dcc3c880',
-    'refresh_token': '8c7224c28e9189553c08e193025f962f0936af76',
-    'grant_type': "refresh_token",
-    'f': 'json'
-}
-
-print("Requesting Token...\n")
-res = requests.post(auth_url, data=payload, verify=False)
-access_token = res.json()['access_token']
-print("Access Token = {}\n".format(access_token))
-
-header = {'Authorization': 'Bearer ' + access_token}
-param = {'per_page': 200, 'page': 1}
-my_dataset = requests.get(activites_url, headers=header, params=param).json()
-print("Succesful operation")
-
 activity_data = []
 
 # Loop through activities and extract relevant data
@@ -353,33 +327,6 @@ sorted_df = bastions_df.sort_values('elevation_gain',ascending='False')
 # Print the top 3 rows based on the sorted column
 top_3_rows = sorted_df.tail(5)
 print(top_3_rows)
-
-import pandas as pd
-from datetime import datetime, timedelta, date
-import matplotlib.pyplot as plt
-import numpy as np
-
-#path to your excel file
-file_path = '/data/notebook_files/mdm2022'
-
-#use the `read_excel()` function to import the file as a DataFrame
-montseny_df = pd.read_csv(file_path)
-
-# Convert the date column to a Pandas datetime object
-montseny_df['date'] = pd.to_datetime(montseny_df['date'])
-
-# Format the date column to mm/dd/yyyy format
-montseny_df['date'] = montseny_df['date'].dt.strftime('%m/%d/%Y')
-#print(df)
-
-# Convert the date column to datetime format
-montseny_df['date'] = pd.to_datetime(montseny_df['date'])
-
-start_date = pd.to_datetime('2022-09-01')
-end_date = pd.to_datetime('2022-11-12')
-montseny_df = montseny_df[(montseny_df['date'] >= start_date) & (montseny_df['date'] <= end_date)]
-
-#print(montseny_df)
 
 import pandas as pd
 import matplotlib.pyplot as plt
